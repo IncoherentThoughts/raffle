@@ -72,6 +72,10 @@ _Avoid_: Pool, audit log
 Replacing a Winner who can't accept the prize with a newly drawn alternate; both outcomes stay on record.
 _Avoid_: Re-roll
 
+**Vacant Slot**:
+A Winner position left empty when a Redraw is refused because the Draw Snapshot has no eligible alternates left. It stays on record and the public page omits it; the only remedy is a new Raffle.
+_Avoid_: Empty winner, null winner
+
 **Exclusion Window**:
 The period (12 months by default, set per Raffle) during which a Standing Winner is ineligible for new Draws, if the Raffle's exclusion setting is on. Counted from the Won Date to the moment of the Draw.
 
