@@ -49,3 +49,53 @@ For local development, point these at a local stack: `supabase start`, then `sup
 `.github/workflows/ci.yml` runs typecheck, lint, test and build on pull requests (with placeholder Supabase values).
 
 No custom domain is configured. If one is added, change `base` in `vite.config.ts` to `/` and add a `CNAME` file under `public/`.
+
+## Database (Supabase)
+
+Schema, RLS and the Draw/Redraw functions live in `supabase/migrations/`; pgTAP
+tests in `supabase/tests/`. Vocabulary follows `GLOSSARY.md`.
+
+### Local development
+
+```sh
+npx supabase start        # Docker must be running
+npx supabase db reset     # re-apply all migrations
+npx supabase test db      # run the pgTAP tests
+npx supabase stop
+```
+
+To sign in to the admin panel locally, create a user in the local Auth
+(local Studio or the Auth admin API) and register it as the admin with the SQL
+below.
+
+### Applying to the hosted project (owner only)
+
+1. Link and push the migrations (asks for the database password from the
+   Supabase dashboard; nothing is stored in the repo):
+   ```sh
+   npx supabase link --project-ref nduesytuadtrmorddsmn
+   npx supabase db push
+   ```
+   (Or paste each file in `supabase/migrations/` into the SQL editor, in order.)
+2. Dashboard > Authentication > Users > Add user: the shared admin user (your
+   company email + the shared admin password, auto-confirm). Keep "Allow new
+   users to sign up" off.
+3. Register that user as the admin, in the SQL editor:
+   ```sql
+   insert into private.app_config (admin_user_id)
+   select id from auth.users where email = '<admin email>'
+   on conflict (id) do update set admin_user_id = excluded.admin_user_id, updated_at = now();
+   ```
+   Until this row exists nobody is an admin: every admin RPC returns `not_admin`.
+
+### Runbook
+
+- **Rotate the admin password** (when an admin leaves): Dashboard > Authentication >
+  Users > the admin user > change password. The UUID does not change, so nothing
+  else needs updating.
+- **Replace the admin user** (e.g. a shared mailbox): create the new user, re-run
+  the `private.app_config` statement above with the new email, then delete the old user.
+- **Rate limit**: PostgREST runs `private.check_request()` before every request and
+  refuses (HTTP 429) the 501st write within 5 minutes from one IP. Change the limit
+  in that function; switch it off with
+  `alter role authenticator reset pgrst.db_pre_request; notify pgrst, 'reload config';`
