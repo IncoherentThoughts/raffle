@@ -37,16 +37,16 @@ Light values are the design system's; dark values follow its Dark theme. Rows ma
 | `steel-muted` | `#44759f` | `#8fb3d6` | Placeholders |
 | `blue-wash` *(new)* | `rgba(0,70,133,.08)` | `rgba(124,180,232,.12)` | Table header row fill |
 | `alert` | `#cc4b37` | `#f2836f` | Time left, duplicate flags (red), Close Early, Remove, stat "flags" |
-| `alert-wash` *(new)* | `rgba(204,75,55,.10)` | `rgba(242,131,111,.14)` | Red-flagged row's first cell |
+| `alert-wash` *(new)* | `rgba(204,75,55,.10)` | `rgba(242,131,111,.14)` | Red-flagged row |
 | `gold` *(new)* | `#f0b429` | `#f0b429` | Winner moment, past-winner flag, Draw Winner button, excluded stat (`#c98f12` in light for text) |
 | `gold-ink` *(new)* | `#3a2a00` | `#3a2a00` | Text on a gold fill |
-| `gold-wash` *(new)* | `rgba(240,180,41,.18)` | `rgba(240,180,41,.16)` | Winner panels, gold-flagged row's first cell |
+| `gold-wash` *(new)* | `rgba(240,180,41,.18)` | `rgba(240,180,41,.16)` | Winner panels, gold-flagged row |
 | `green` *(new)* | `#2a7a4b` | `#6fcf97` | "Eligible" stat and status only |
 | `green-wash` *(new)* | `rgba(42,122,75,.10)` | `rgba(111,207,151,.12)` | Eligible status pill |
 
 ## Components settled
 
-- **Flags**: pill, 11px sans, inside the name cell; red for duplicate signals (same device, same name, email match), gold for a past winner in the Exclusion Window. The flagged row gets a 4px left bar and a wash on its first cell. Flags never block the Draw.
+- **Flags**: pill, 11px sans, inside the name cell; red for duplicate signals (same device, same name, email match), gold for a past winner in the Exclusion Window. The whole flagged row gets the wash plus a 4px left bar. Flags never block the Draw.
 - **Status tags**: pill with a leading dot. Blue filled = Open; gold = Complete / Excluded; green = Eligible again.
 - **Stat tiles**: 4px coloured left bar, 30px Inter number in the same colour, 12px label.
 - **Buttons**: filled blue submit; blue outline secondary; red outline for Close Early; gold fill for Draw Winner (disabled until the Raffle is closed).
