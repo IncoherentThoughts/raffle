@@ -1,0 +1,77 @@
+/* Design tokens - source of truth: docs/design-tokens.md (issue #5).
+   Light is the default; dark follows prefers-color-scheme unless [data-theme] forces a theme. */
+:root {
+  --comfort-blue: #004685;
+  --on-brand: #ffffff;
+  --header-bar: #004685;
+  --navy-900: #0b1a2a;
+  --surface: #ffffff;
+  --surface-tint: #f9fafc;
+  --surface-sunken: #f2f4f7;
+  --ink: #232121;
+  --charcoal: #2d2a2a;
+  --ink-muted: #6c6a6a;
+  --steel-line: rgba(21, 84, 140, 0.15);
+  --steel-muted: #44759f;
+  --blue-wash: rgba(0, 70, 133, 0.08);
+  --alert: #cc4b37;
+  --alert-wash: rgba(204, 75, 55, 0.1);
+  --gold: #f0b429;
+  --gold-text: #c98f12; /* gold used as text/stat colour */
+  --gold-ink: #3a2a00;
+  --gold-wash: rgba(240, 180, 41, 0.18);
+  --green: #2a7a4b;
+  --green-wash: rgba(42, 122, 75, 0.1);
+  --on-dark: #ffffff;
+  --on-dark-muted: rgba(255, 255, 255, 0.72);
+  --shadow-btn: 0 6px 12px rgba(0, 0, 0, 0.12);
+
+  --font-serif: 'PT Serif', Georgia, serif;
+  --font-sans: nimbus-sans, 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  --font-num: 'Inter', system-ui, sans-serif;
+  --ease: all 0.3s ease;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    --comfort-blue: #7cb4e8;
+    --on-brand: #0b1a2a;
+    --surface: #161515;
+    --surface-tint: #1f1d1d;
+    --surface-sunken: #121111;
+    --ink: #e8e6e6;
+    --charcoal: #f2f0f0;
+    --ink-muted: #a8a5a5;
+    --steel-line: rgba(143, 179, 214, 0.25);
+    --steel-muted: #8fb3d6;
+    --blue-wash: rgba(124, 180, 232, 0.12);
+    --alert: #f2836f;
+    --alert-wash: rgba(242, 131, 111, 0.14);
+    --gold-text: #f0b429;
+    --gold-wash: rgba(240, 180, 41, 0.16);
+    --green: #6fcf97;
+    --green-wash: rgba(111, 207, 151, 0.12);
+    --shadow-btn: 0 6px 12px rgba(0, 0, 0, 0.4);
+  }
+}
+
+:root[data-theme='dark'] {
+  --comfort-blue: #7cb4e8;
+  --on-brand: #0b1a2a;
+  --surface: #161515;
+  --surface-tint: #1f1d1d;
+  --surface-sunken: #121111;
+  --ink: #e8e6e6;
+  --charcoal: #f2f0f0;
+  --ink-muted: #a8a5a5;
+  --steel-line: rgba(143, 179, 214, 0.25);
+  --steel-muted: #8fb3d6;
+  --blue-wash: rgba(124, 180, 232, 0.12);
+  --alert: #f2836f;
+  --alert-wash: rgba(242, 131, 111, 0.14);
+  --gold-text: #f0b429;
+  --gold-wash: rgba(240, 180, 41, 0.16);
+  --green: #6fcf97;
+  --green-wash: rgba(111, 207, 151, 0.12);
+  --shadow-btn: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
