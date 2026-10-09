@@ -63,9 +63,18 @@ export function WinnersTab() {
   const rows = showReplaced ? all : all.filter((w) => w.status === 'standing')
 
   const winnerColumns: Column<WinnerRow>[] = [
-    { key: 'name', header: 'Name', className: 'name', render: (w) => w.full_name },
-    { key: 'email', header: 'Email', render: (w) => w.email },
-    { key: 'won', header: 'Won', className: 'num', render: (w) => formatDate(w.won_at) },
+    {
+      key: 'name',
+      header: 'Winner',
+      className: 'name',
+      render: (w) => (
+        <>
+          <span className="winners__nowrap">{w.full_name}</span>
+          <span className="winners__email">{w.email}</span>
+        </>
+      ),
+    },
+    { key: 'won', header: 'Won', className: 'num winners__nowrap', render: (w) => formatDate(w.won_at) },
     {
       key: 'raffle',
       header: 'Raffle / Note',
@@ -94,48 +103,44 @@ export function WinnersTab() {
     {
       key: 'override',
       header: 'Override',
-      render: (w) => (
-        <div className="winners__stack">
-          {w.override_kind ? (
-            <span
-              className={`winners__override winners__override--${w.override_kind}`}
-              title={overrideTitle(w.override_reason, w.override_expires_at)}
-            >
-              {OVERRIDE_LABEL[w.override_kind]}
-            </span>
-          ) : (
-            <span className="winners__none">none</span>
-          )}
-          <span className="winners__links">
-            <Button
-              variant="link"
-              aria-label={`${w.override_kind ? 'Change' : 'Set'} override for ${w.full_name}`}
-              onClick={() => setOverrideTarget({ email: w.email, name: w.full_name, currentKind: w.override_kind })}
-            >
-              {w.override_kind ? 'Change' : 'Set'}
-            </Button>
-            {w.override_id && (
-              <Button
-                variant="link"
-                aria-label={`Clear override for ${w.full_name}`}
-                onClick={() => setClearing({ id: w.override_id!, label: `${w.full_name} (${w.email})` })}
-              >
-                Clear
-              </Button>
-            )}
+      render: (w) =>
+        w.override_kind ? (
+          <span title={overrideTitle(w.override_reason, w.override_expires_at)}>
+            <Tag tone={w.override_kind === 'force_eligible' ? 'green' : 'red'}>{OVERRIDE_LABEL[w.override_kind]}</Tag>
           </span>
-        </div>
-      ),
+        ) : (
+          <span className="winners__none">—</span>
+        ),
     },
     {
       key: 'actions',
       header: <span className="visually-hidden">Actions</span>,
-      render: (w) =>
-        w.source === 'past' && (
-          <Button variant="link-danger" aria-label={`Delete ${w.full_name}`} onClick={() => setDeleting(w)}>
-            Delete
+      className: 'winners__actions-cell',
+      render: (w) => (
+        <span className="winners__actions">
+          <Button
+            variant="link"
+            aria-label={`${w.override_kind ? 'Change' : 'Set'} override for ${w.full_name}`}
+            onClick={() => setOverrideTarget({ email: w.email, name: w.full_name, currentKind: w.override_kind })}
+          >
+            Override
           </Button>
-        ),
+          {w.override_id && (
+            <Button
+              variant="link"
+              aria-label={`Clear override for ${w.full_name}`}
+              onClick={() => setClearing({ id: w.override_id!, label: `${w.full_name} (${w.email})` })}
+            >
+              Clear
+            </Button>
+          )}
+          {w.source === 'past' && (
+            <Button variant="link-danger" aria-label={`Delete ${w.full_name}`} onClick={() => setDeleting(w)}>
+              Delete
+            </Button>
+          )}
+        </span>
+      ),
     },
   ]
 

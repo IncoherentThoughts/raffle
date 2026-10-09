@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { listHistory, type HistoryRaffle } from '../../../lib/api/history'
 import { useAdminQuery } from '../data/useAdminQuery'
 import { DataTable, EmptyState, InlineError, Loading, PageHeader, Panel, type Column } from '../ui'
-import { EntriesChart } from './EntriesChart'
 import { formatDate } from './model'
 
 const columns: Column<HistoryRaffle>[] = [
@@ -86,9 +85,6 @@ export function HistoryList() {
       )}
       {data && data.length > 0 && (
         <>
-          <Panel title="Entries per raffle">
-            <EntriesChart raffles={data} />
-          </Panel>
           <Panel title="Completed raffles" className="history-table">
             <DataTable
               caption="Completed raffles"
