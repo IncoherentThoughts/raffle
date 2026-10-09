@@ -1,16 +1,21 @@
-import { EmptyState, PageHeader, Panel } from '../ui'
+import { Route, Routes } from 'react-router-dom'
+import { ActivityLogPage } from './ActivityLogPage'
+import './history.css'
+import { HistoryList } from './HistoryList'
+import { RaffleDetailPage } from './RaffleDetailPage'
 
 /**
- * History tab, routed at /admin/history/* (this folder is owned by #16).
- * Placeholder: replace freely. Nested routes go in a <Routes> here, relative to /admin/history.
+ * History tab, routed at /admin/history/*:
+ *   /admin/history            completed Raffles (chart + table)
+ *   /admin/history/activity   the full Activity Log
+ *   /admin/history/:raffleId  one Raffle's detail
  */
 export function HistoryTab() {
   return (
-    <>
-      <PageHeader title="History" lead="Every drawn or cancelled raffle, kept indefinitely." />
-      <Panel>
-        <EmptyState title="Coming soon">This tab is built in #16.</EmptyState>
-      </Panel>
-    </>
+    <Routes>
+      <Route index element={<HistoryList />} />
+      <Route path="activity" element={<ActivityLogPage />} />
+      <Route path=":raffleId" element={<RaffleDetailPage />} />
+    </Routes>
   )
 }
