@@ -1,0 +1,21 @@
+/* Winners tab (#15). Scoped under .admin; colours via tokens only. */
+.admin .winners__toggle {
+  display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: var(--ink-muted);
+  cursor: pointer; align-self: center; white-space: nowrap;
+}
+.admin .winners__toggle input { accent-color: var(--comfort-blue); width: 16px; height: 16px; }
+.admin .winners__note { color: var(--ink-muted); font-style: italic; }
+.admin .winners__sub { color: var(--ink-muted); font-size: 13px; }
+.admin .winners__none { color: var(--ink-muted); font-size: 14px; margin: 0; }
+.admin .winners__help { font-size: 14px; line-height: 20px; color: var(--ink-muted); }
+.admin .winners__override {
+  font-weight: 700; white-space: nowrap; border-bottom: 1px dotted currentColor; cursor: help;
+}
+.admin .winners__override--force_eligible { color: var(--green); }
+.admin .winners__override--force_excluded { color: var(--alert); }
+.admin .winners__stack { display: flex; flex-direction: column; align-items: flex-start; gap: 4px; }
+.admin .winners__links { display: inline-flex; gap: 12px; white-space: nowrap; }
+.admin .winners__links .btn { font-size: 13px; }
+.admin .winners__kind { border: 0; padding: 0; margin: 0 0 14px; }
+.admin .winners__radio { display: flex; align-items: center; gap: 8px; font-size: 15px; margin: 0 0 6px; cursor: pointer; }
+.admin .winners__radio input { accent-color: var(--comfort-blue); width: 16px; height: 16px; }

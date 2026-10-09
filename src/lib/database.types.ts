@@ -459,6 +459,45 @@ export type Database = {
           rule: Database['public']['Enums']['flag_rule']
         }[]
       }
+      admin_overrides: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          created_at: string
+          email: string
+          email_normalized: string
+          expires_at: string
+          full_name: string
+          id: string
+          kind: Database['public']['Enums']['override_kind']
+          reason: string
+        }[]
+      }
+      admin_winners: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          email: string
+          email_normalized: string
+          excluded: boolean
+          excluded_until: string
+          full_name: string
+          id: string
+          note: string
+          override_expires_at: string
+          override_id: string
+          override_kind: Database['public']['Enums']['override_kind']
+          override_reason: string
+          position: number
+          raffle_id: string
+          raffle_title: string
+          replaced_at: string
+          replaced_reason: string
+          source: Database['public']['Enums']['winner_source']
+          status: Database['public']['Enums']['winner_status']
+          window_enabled: boolean
+          window_months: number
+          won_at: string
+        }[]
+      }
       alternates_remaining: { Args: { p_raffle_id: string }; Returns: number }
       cancel_raffle: { Args: { p_raffle_id: string; p_reason: string }; Returns: undefined }
       clear_override: { Args: { p_override_id: string; p_reason: string }; Returns: undefined }
