@@ -194,11 +194,11 @@ function EntriesTable({
       header: <span className="visually-hidden">Actions</span>,
       render: (r) =>
         r.removed ? (
-          <Button variant="link" onClick={() => restore(r)}>
+          <Button variant="link" onClick={() => restore(r)} aria-label={`Restore ${r.entry.full_name}`}>
             Restore
           </Button>
         ) : (
-          <Button variant="link-danger" onClick={() => setRemoving(r)}>
+          <Button variant="link-danger" onClick={() => setRemoving(r)} aria-label={`Remove ${r.entry.full_name}`}>
             Remove
           </Button>
         ),

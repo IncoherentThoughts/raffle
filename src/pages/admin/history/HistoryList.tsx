@@ -16,7 +16,7 @@ const columns: Column<HistoryRaffle>[] = [
     ),
   },
   { key: 'opened', header: 'Opened', className: 'num', render: (r) => formatDate(r.openedAt) },
-  { key: 'closed', header: 'Closed', className: 'num', render: (r) => formatDate(r.closeTime) },
+  { key: 'closed', header: 'Closed', className: 'num', render: (r) => formatDate(r.closedAt) },
   {
     key: 'ended',
     header: (
@@ -45,7 +45,14 @@ const columns: Column<HistoryRaffle>[] = [
     header: 'Entries (eligible / excluded)',
     className: 'num',
     render: (r) =>
-      r.eligible === null ? r.entries : `${r.entries} (${r.eligible} / ${r.excluded ?? 0})`,
+      r.eligible === null ? (
+        r.entries
+      ) : (
+        <>
+          {`${r.entries} (${r.eligible} / ${r.excluded ?? 0})`}
+          {!!r.removed && <span className="history-muted">, {r.removed} removed</span>}
+        </>
+      ),
   },
   {
     key: 'winners',
@@ -62,7 +69,7 @@ const columns: Column<HistoryRaffle>[] = [
   { key: 'redraws', header: 'Redraws', className: 'num', render: (r) => (r.state === 'cancelled' ? '—' : r.redraws) },
 ]
 
-/** /admin/history: entries-per-Raffle chart and one row per Drawn or Cancelled Raffle. */
+/** /admin/history: one row per Drawn or Cancelled Raffle. */
 export function HistoryList() {
   const { data, error, loading } = useAdminQuery(listHistory, [])
   return (

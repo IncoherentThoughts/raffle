@@ -57,7 +57,7 @@ describe('Entries tab (current Raffle)', () => {
     await table()
     expect(screen.getByText(/Draw Snapshot/)).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Add entry' })).not.toBeInTheDocument()
-    expect(screen.queryByRole('button', { name: /^Remove$/ })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: /^Remove / })).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Export CSV' })).toBeInTheDocument()
   })
 
@@ -88,7 +88,7 @@ describe('Entries tab (current Raffle)', () => {
     const user = userEvent.setup()
     renderAdmin('/admin/entries')
     const t = await table()
-    await user.click(within(t.getByText('Jim Lee').closest('tr')!).getByRole('button', { name: 'Remove' }))
+    await user.click(within(t.getByText('Jim Lee').closest('tr')!).getByRole('button', { name: 'Remove Jim Lee' }))
     const dialog = screen.getByRole('dialog', { name: /remove entry/i })
     const confirm = within(dialog).getByRole('button', { name: 'Remove entry' })
     expect(confirm).toBeDisabled()
@@ -105,7 +105,7 @@ describe('Entries tab (current Raffle)', () => {
     const user = userEvent.setup()
     renderAdmin('/admin/entries')
     const t = await table()
-    await user.click(within(t.getByText('Rae Gone').closest('tr')!).getByRole('button', { name: 'Restore' }))
+    await user.click(within(t.getByText('Rae Gone').closest('tr')!).getByRole('button', { name: 'Restore Rae Gone' }))
     await waitFor(() => expect(rpcCalls('restore_entry')).toEqual([{ p_entry_id: 'rae' }]))
   })
 
@@ -239,7 +239,7 @@ describe('another Raffle\'s Entries (/admin/entries/:raffleId)', () => {
     const t = await table()
     expect(rpcCalls('admin_entries')).toEqual([{ p_raffle_id: 'old' }])
     expect(screen.queryByRole('button', { name: 'Add entry' })).not.toBeInTheDocument()
-    expect(t.queryByRole('button', { name: /^(Remove|Restore)$/ })).not.toBeInTheDocument()
+    expect(t.queryByRole('button', { name: /^(Remove|Restore) / })).not.toBeInTheDocument()
     expect(screen.getByRole('searchbox', { name: /search/i })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Export CSV' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /raffle details/i })).toHaveAttribute('href', '/admin/history/old')
@@ -250,7 +250,7 @@ describe('another Raffle\'s Entries (/admin/entries/:raffleId)', () => {
     renderAdmin('/admin/entries/r1')
     const t = await table()
     expect(screen.queryByRole('button', { name: 'Add entry' })).not.toBeInTheDocument()
-    expect(t.queryByRole('button', { name: /^(Remove|Restore)$/ })).not.toBeInTheDocument()
+    expect(t.queryByRole('button', { name: /^(Remove|Restore) / })).not.toBeInTheDocument()
   })
 
   it('says when the Raffle does not exist', async () => {

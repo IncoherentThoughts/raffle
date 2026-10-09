@@ -52,6 +52,7 @@ function statusTag(state: string) {
 function Detail({ detail }: { detail: RaffleDetail }) {
   const { raffle, snapshot, winners, snapshotEntries, activity, entryCount } = detail
   const redraws = winners.filter((w) => w.status === 'replaced').length
+  const removed = snapshotEntries.filter((e) => e.reason === 'removed').length
   return (
     <>
       <PageHeader
@@ -116,7 +117,8 @@ function Detail({ detail }: { detail: RaffleDetail }) {
           {snapshot && (
             <>
               <StatTile tone="green" value={snapshot.eligible_count} label="Eligible" />
-              <StatTile tone="gold" value={snapshot.excluded_count} label="Excluded" />
+              <StatTile tone="gold" value={snapshot.excluded_count - removed} label="Excluded" />
+              {removed > 0 && <StatTile tone="gold" value={removed} label="Removed" />}
               <StatTile tone="red" value={snapshot.flagged_count} label="Flags" />
             </>
           )}
