@@ -1,0 +1,84 @@
+/* Public entry page (issue #11), Letterhead per docs/design-tokens.md.
+   Scoped under .public so admin styles stay independent. Mobile-first. */
+
+.public { min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--surface); }
+.public__main { flex: 1; width: 100%; padding-top: 32px; }
+.public h1 { font-size: 28px; line-height: 1.25; overflow-wrap: anywhere; }
+.public p { margin: 0 0 18px; }
+
+.public .rule { height: 1px; background: var(--steel-line); margin: 20px 0; }
+
+/* Prize / close / time left */
+.public .meta { display: flex; flex-wrap: wrap; gap: 14px 28px; margin: 0 0 22px; font-size: 14px; line-height: 18px; }
+.public .meta dt {
+  font-family: var(--font-serif); font-weight: 700; color: var(--comfort-blue); font-size: 14px; margin: 0 0 3px;
+}
+.public .meta dd { margin: 0; }
+.public .meta__left { color: var(--alert); font-weight: 700; font-size: 16px; }
+.public__details { white-space: pre-line; overflow-wrap: anywhere; }
+
+/* Form */
+.public .entry-form { margin-top: 6px; }
+.public .entry-form label {
+  display: block; font-family: var(--font-serif); font-weight: 700; font-size: 15px; color: var(--charcoal); margin: 0 0 6px;
+}
+.public .field {
+  display: block; width: 100%; border: 1px solid var(--steel-line); border-radius: 0; background: var(--surface);
+  padding: 15px 16px; margin: 0 0 16px; color: var(--ink); font-size: 16px; /* 16px stops iOS zoom on focus */
+  transition: border-color 0.2s ease; -webkit-appearance: none; appearance: none;
+}
+.public .field::placeholder { color: var(--steel-muted); opacity: 1; }
+.public .field:focus { border-color: var(--comfort-blue); outline: none; box-shadow: inset 0 0 0 1px var(--comfort-blue); }
+.public .entry-form__error {
+  border-left: 4px solid var(--alert); background: var(--alert-wash); color: var(--ink);
+  padding: 10px 14px; font-size: 14px; line-height: 20px; margin: -4px 0 16px;
+}
+.public .entry-form__notice { font-size: 12px; line-height: 18px; color: var(--ink-muted); margin: 14px 0 0; }
+
+/* Buttons */
+.public .btn {
+  display: inline-block; font-family: var(--font-serif); font-weight: 700; font-size: 15px; line-height: 1.2;
+  padding: 15px 40px; border: 1px solid var(--comfort-blue); border-radius: 0; background: var(--comfort-blue);
+  color: var(--on-brand); cursor: pointer; box-shadow: var(--shadow-btn); transition: var(--ease);
+}
+.public .btn:hover:not([disabled]) { background: var(--surface); color: var(--comfort-blue); }
+.public .btn[disabled] { opacity: 0.55; cursor: progress; }
+.public .btn--outline { background: transparent; color: var(--comfort-blue); box-shadow: none; padding: 11px 24px; font-size: 14px; }
+.public .btn--outline:hover:not([disabled]) { background: var(--comfort-blue); color: var(--on-brand); }
+.public .entry-form__submit { width: 100%; }
+
+/* Notes: closed, entered, already entered, winners */
+.public .note { background: var(--surface-tint); border: 1px solid var(--steel-line); padding: 20px 20px 22px; margin: 0 0 18px; }
+.public .note h2 { font-size: 22px; color: var(--comfort-blue); margin: 0 0 6px; }
+.public .note p { margin: 0; }
+.public .note--ok { border-top: 4px solid var(--comfort-blue); }
+.public .note--win { border-top: 4px solid var(--gold); background: var(--gold-wash); }
+.public .note--win h2 { color: var(--charcoal); font-size: 24px; overflow-wrap: anywhere; }
+.public .note__name { color: var(--comfort-blue); }
+.public .note__cup { float: right; color: var(--gold-text); margin: -2px 0 0 12px; }
+
+/* Loading skeleton */
+.public__loading { display: grid; gap: 14px; }
+.public .skeleton { display: block; height: 14px; background: var(--surface-sunken); animation: public-pulse 1.4s ease-in-out infinite; }
+.public .skeleton--kicker { width: 30%; }
+.public .skeleton--title { height: 32px; width: 80%; margin-bottom: 14px; }
+.public .skeleton--line { width: 100%; }
+.public .skeleton--short { width: 60%; }
+@keyframes public-pulse { 50% { opacity: 0.5; } }
+@media (prefers-reduced-motion: reduce) { .public .skeleton { animation: none; } }
+
+/* Footer */
+.public__foot {
+  border-top: 1px solid var(--steel-line); padding: 22px 20px; font-size: 12px; line-height: 18px;
+  color: var(--ink-muted); text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 4px 14px;
+}
+.public__foot a { color: var(--ink-muted); }
+.public__foot a:hover { color: var(--comfort-blue); }
+
+@media (min-width: 600px) {
+  .public__main { padding-top: 40px; }
+  .public h1 { font-size: 35px; }
+  .public .note { padding: 22px 24px; }
+  .public .note--win h2 { font-size: 26px; }
+  .public .entry-form__submit { width: auto; }
+}
