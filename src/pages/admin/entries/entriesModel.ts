@@ -10,7 +10,7 @@ export const RULE_LABEL: Record<FlagRule, string> = {
   same_device: 'same device',
 }
 
-export type FlagPair = { otherId: string; otherName: string; otherRemoved: boolean }
+export type FlagPair = { otherId: string; otherName: string; otherEmail: string; otherRemoved: boolean }
 
 /**
  * One pill per rule with at least one undismissed pair. `active` (red) while any other Entry
@@ -75,6 +75,7 @@ export function statusLabel(e: AdminEntry): StatusLabel {
 
 /** Join each Entry with its side of the flagged pairs. Keeps the Entries' order. */
 export function buildRows(entries: AdminEntry[], flags: EntryFlag[]): EntryRow[] {
+  const emailOf = new Map(entries.map((e) => [e.id, e.email]))
   const byEntry = new Map<string, EntryFlag[]>()
   for (const f of flags) {
     const list = byEntry.get(f.entry_id) ?? []
@@ -99,7 +100,12 @@ export function buildRows(entries: AdminEntry[], flags: EntryFlag[]): EntryRow[]
         label: RULE_LABEL[rule],
         state: allRemoved ? 'pair-removed' : 'active',
         title: `${capitalize(RULE_LABEL[rule])} as ${names}${allRemoved ? ' (pair removed)' : ''}`,
-        pairs: open.map((x) => ({ otherId: x.other_entry_id, otherName: x.other_full_name, otherRemoved: x.other_removed })),
+        pairs: open.map((x) => ({
+          otherId: x.other_entry_id,
+          otherName: x.other_full_name,
+          otherEmail: emailOf.get(x.other_entry_id) ?? '',
+          otherRemoved: x.other_removed,
+        })),
       })
     }
     return {

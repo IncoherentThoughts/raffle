@@ -17,6 +17,9 @@
 
 .admin .entries__caption { font-size: 13px; line-height: 18px; color: var(--ink-muted); margin: 0 0 10px; }
 .admin .entries__flagged-count { color: var(--alert); }
+/* Keep the visually-hidden Actions header inside the table's scroll box. */
+.admin .entries__table th { position: relative; }
+.admin .table td.entries__email { overflow-wrap: anywhere; min-width: 160px; }
 .admin .entries__none { color: var(--ink-muted); font-size: 14px; margin: 18px 0 6px; }
 
 /* Flag pills are buttons (click to dismiss). */
@@ -30,7 +33,7 @@
   font-size: 11px; line-height: 1; vertical-align: 2px; white-space: nowrap; color: var(--ink-muted);
 }
 .admin .entries__marker { padding: 4px 8px; border: 1px solid var(--steel-line); border-radius: 999px; }
-.admin .entries__dismissed { opacity: 0.65; text-decoration: line-through; }
+.admin .entries__dismissed { opacity: 0.6; }
 
 .admin .entries__empty-actions { display: flex; flex-direction: column; align-items: center; gap: 14px; }
 .admin .entries__share { display: flex; gap: 10px; width: min(460px, 100%); }

@@ -42,7 +42,7 @@ function DismissFlagDialogInner({ raffleId, target, onClose, onDismissed }: Prop
   return (
     <ConfirmDialog
       open={target !== null}
-      title={`Dismiss "${label}" flag`}
+      title={`Dismiss “${label}” flag`}
       confirmLabel="Dismiss"
       requireReason
       onCancel={onClose}
@@ -66,8 +66,8 @@ function DismissFlagDialogInner({ raffleId, target, onClose, onDismissed }: Prop
             {target.pairs.length === 1 && (
               <>
                 {' '}
-                <b>{target.pairs[0].otherName}</b>
-                {target.pairs[0].otherRemoved && ' (removed)'}
+                <b>{target.pairs[0].otherName}</b> ({target.pairs[0].otherEmail}
+                {target.pairs[0].otherRemoved && ', removed'})
               </>
             )}
             {target.pairs.length === 1 ? '.' : ':'}
@@ -82,8 +82,8 @@ function DismissFlagDialogInner({ raffleId, target, onClose, onDismissed }: Prop
                     checked={!unticked.has(p.otherId)}
                     onChange={(e) => toggle(p.otherId, e.target.checked)}
                   />{' '}
-                  {p.otherName}
-                  {p.otherRemoved && ' (removed)'}
+                  {p.otherName} ({p.otherEmail}
+                  {p.otherRemoved && ', removed'})
                 </label>
               ))}
             </fieldset>

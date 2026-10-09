@@ -9,7 +9,10 @@ describe('flag pills', () => {
     const rows = buildRows([jim, james, jay], [...pair('same_device', jim, james), ...pair('same_device', jim, jay)])
     expect(rows[0].pills).toEqual([
       { rule: 'same_device', label: 'same device', state: 'active', title: 'Same device as James Lee, Jay Lee',
-        pairs: [{ otherId: 'james', otherName: 'James Lee', otherRemoved: false }, { otherId: 'jay', otherName: 'Jay Lee', otherRemoved: false }] },
+        pairs: [
+          { otherId: 'james', otherName: 'James Lee', otherEmail: 'james@thecomfortgroup.com', otherRemoved: false },
+          { otherId: 'jay', otherName: 'Jay Lee', otherEmail: 'jay@thecomfortgroup.com', otherRemoved: false },
+        ] },
     ])
     expect(rows[0].flagged).toBe(true)
   })

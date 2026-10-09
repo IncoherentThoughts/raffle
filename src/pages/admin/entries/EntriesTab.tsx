@@ -136,7 +136,8 @@ function EntriesTable({
   }
 
   function exportCsv() {
-    const blob = new Blob([toCsv(visible)], { type: 'text/csv;charset=utf-8' })
+    // BOM so Excel reads UTF-8 names (José) correctly.
+    const blob = new Blob(['\uFEFF', toCsv(visible)], { type: 'text/csv;charset=utf-8' })
     const url = URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -175,7 +176,7 @@ function EntriesTable({
         </>
       ),
     },
-    { key: 'email', header: 'Email', render: (r) => r.entry.email },
+    { key: 'email', header: 'Email', className: 'entries__email', render: (r) => r.entry.email },
     { key: 'entered', header: 'Entered', className: 'num', render: (r) => formatDateTime(r.entry.created_at) },
     {
       key: 'status',
@@ -286,14 +287,18 @@ function EntriesTable({
             </div>
             <p className="entries__caption">{caption}</p>
             {rowError && <InlineError>{rowError}</InlineError>}
-            <DataTable
-              caption={`Entries for ${raffle.title}`}
-              columns={columns}
-              rows={visible}
-              rowKey={(r) => r.entry.id}
-              rowClassName={(r) => (r.removed ? 'row--muted' : r.pills.some((p) => p.state === 'active') ? 'row--red' : undefined)}
-              empty={<p className="entries__none">No entries match.</p>}
-            />
+            <div className="entries__table">
+              <DataTable
+                caption={`Entries for ${raffle.title}`}
+                columns={columns}
+                rows={visible}
+                rowKey={(r) => r.entry.id}
+                rowClassName={(r) =>
+                  r.removed ? 'row--muted' : r.pills.some((p) => p.state === 'active') ? 'row--red' : undefined
+                }
+                empty={<p className="entries__none">No entries match.</p>}
+              />
+            </div>
           </>
         )}
       </Panel>
@@ -352,6 +357,7 @@ function EntriesTable({
 
 function csvFileName(raffle: EntriesRaffle, filter: EntriesFilter): string {
   const slug = raffle.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'raffle'
-  const date = new Date().toISOString().slice(0, 10)
+  const d = new Date()
+  const date = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
   return `entries-${slug}${filter === 'all' ? '' : `-${filter}`}-${date}.csv`
 }

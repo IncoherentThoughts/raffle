@@ -208,7 +208,9 @@ describe('Entries tab (current Raffle)', () => {
     await user.click(screen.getByRole('button', { name: /^Flagged/ }))
     await user.click(screen.getByRole('button', { name: 'Export CSV' }))
     expect(click).toHaveBeenCalled()
-    const lines = (await created[0].text()).trim().split('\r\n')
+    const bytes = new Uint8Array(await created[0].arrayBuffer())
+    expect([...bytes.slice(0, 3)]).toEqual([0xef, 0xbb, 0xbf]) // UTF-8 BOM for Excel
+    const lines = new TextDecoder().decode(bytes).trim().split('\r\n')
     expect(lines[0]).toBe('name,email,entered_at,status,flags,removed_at,removed_reason,device_id')
     expect(lines.slice(1).map((l) => l.split(',')[0])).toEqual(['Jim Lee', 'James Lee'])
     expect(lines[1]).toContain(',same_device,')
