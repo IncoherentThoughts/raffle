@@ -34,6 +34,8 @@ For local development, point these at a local stack: `supabase start`, then `sup
 - `src/pages/` route-level pages (`PublicPage`, `AdminPage`)
 - `src/components/` shared components
 - `src/lib/supabase.ts` the Supabase client: `import { supabase } from '../lib/supabase'`
+- `src/lib/api/` typed data-access layer (`rpc()`, `unwrap()`, `ApiError`); `src/lib/database.types.ts` is generated with `npm run gen:types` against the local stack
+- `src/pages/admin/` the admin panel: shell, login, one folder per tab. Conventions in `src/pages/admin/README.md`
 - `src/styles/tokens.css` design tokens as CSS variables (light + dark); `global.css` base styles. Use `var(--token)`, never raw hex
 - Tests sit next to the code as `*.test.ts(x)`; shared setup in `src/test/setup.ts`
 - `src/App.tsx` route table. Vite `base` is `/raffle/` and the router basename is derived from it in `src/main.tsx`
