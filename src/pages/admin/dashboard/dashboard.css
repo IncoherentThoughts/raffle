@@ -24,7 +24,8 @@
 .admin .dash-chart__col { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; }
 .admin .dash-chart__col:hover .dash-chart__bar { opacity: 0.75; }
 .admin .dash-chart__bar { width: 100%; max-width: 40px; margin: 0 auto; background: var(--comfort-blue); min-height: 0; }
-.admin .dash-chart__axis { display: flex; justify-content: space-between; padding-left: 28px; margin-top: 4px; font-size: 11px; color: var(--ink-muted); }
+.admin .dash-chart__axis { display: flex; gap: 2px; padding-left: 29px; margin-top: 4px; font-size: 11px; line-height: 14px; color: var(--ink-muted); }
+.admin .dash-chart__tick { flex: 1 1 0; min-width: 0; text-align: center; white-space: nowrap; overflow: visible; }
 
 /* Actions row: Edit / Close early / Cancel left, Draw right */
 .admin .dash-actions { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-top: 22px; }

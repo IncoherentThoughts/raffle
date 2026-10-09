@@ -4,6 +4,8 @@ import { formatDay, plural } from './format'
 /** Small daily bar chart "Entries over time", Opened through Close Time. CSS bars, token colours. */
 export function EntriesChart({ daily }: { daily: DayCount[] }) {
   const max = Math.max(1, ...daily.map((d) => d.count))
+  // Label about seven days at most, always the last one.
+  const step = Math.max(1, Math.ceil(daily.length / 7))
   const total = daily.reduce((s, d) => s + d.count, 0)
   const peak = daily.reduce((a, d) => (d.count > a.count ? d : a), daily[0])
   const summary =
@@ -26,8 +28,11 @@ export function EntriesChart({ daily }: { daily: DayCount[] }) {
         </div>
       </div>
       <div className="dash-chart__axis num" aria-hidden="true">
-        <span>{formatDay(daily[0].day)}</span>
-        {daily.length > 1 && <span>{formatDay(daily[daily.length - 1].day)}</span>}
+        {daily.map((d, i) => (
+          <span key={d.day} className="dash-chart__tick">
+            {i === daily.length - 1 || (i % step === 0 && daily.length - 1 - i >= step) ? formatDay(d.day) : ''}
+          </span>
+        ))}
       </div>
     </figure>
   )

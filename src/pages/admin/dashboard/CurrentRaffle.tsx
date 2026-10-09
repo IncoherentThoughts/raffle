@@ -48,6 +48,13 @@ export function CurrentRaffle({ raffle, version, onChanged }: { raffle: Raffle; 
   const handleError = useApiErrorHandler()
   const [dialog, setDialog] = useState<Dialog>(null)
 
+  // Entries keep arriving while Open: refresh the stats every 30 s.
+  const { reload: reloadEntries } = entries
+  useEffect(() => {
+    const t = setInterval(reloadEntries, 30_000)
+    return () => clearInterval(t)
+  }, [reloadEntries])
+
   // Refresh the stats when Close Time passes so the Draw confirm uses the final pool.
   useEffect(() => {
     if (closed) entries.reload()
