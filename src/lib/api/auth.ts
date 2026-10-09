@@ -1,11 +1,15 @@
 import type { Session } from '@supabase/supabase-js'
 import { supabase } from '../supabase'
+import { isApiError } from './errors'
+import { rpc } from './rpc'
 
 export type { Session }
 
 export type SignInResult =
   | { ok: true; session: Session }
-  | { ok: false; reason: 'invalid' | 'rate_limited' | 'unreachable' }
+  | { ok: false; reason: 'invalid' | 'rate_limited' | 'unreachable' | 'not_admin' }
+
+class ApiErrorNotAdmin extends Error {}
 
 /**
  * Sign in as the shared admin Auth user. The "username" on the login card is that user's
@@ -19,7 +23,19 @@ export async function signIn(username: string, password: string): Promise<SignIn
     return { ok: false, reason: 'unreachable' }
   }
   const { data, error } = result
-  if (!error && data.session) return { ok: true, session: data.session }
+  if (!error && data.session) {
+    // Valid credentials for a non-admin account: end that session right away (#17).
+    try {
+      if (!(await rpc('am_i_admin'))) throw new ApiErrorNotAdmin()
+    } catch (e) {
+      await signOut()
+      if (e instanceof ApiErrorNotAdmin || (isApiError(e) && e.kind === 'unauthorized')) {
+        return { ok: false, reason: 'not_admin' }
+      }
+      return { ok: false, reason: 'unreachable' }
+    }
+    return { ok: true, session: data.session }
+  }
   const status = (error as { status?: number } | null)?.status ?? 0
   if (status === 429) return { ok: false, reason: 'rate_limited' }
   if (status === 0 || status >= 500) return { ok: false, reason: 'unreachable' }

@@ -425,6 +425,7 @@ export type Database = {
         Args: { p_email: string; p_full_name: string; p_note?: string; p_won_at: string }
         Returns: string
       }
+      am_i_admin: { Args: Record<PropertyKey, never>; Returns: boolean }
       admin_entries: {
         Args: { p_raffle_id: string }
         Returns: {

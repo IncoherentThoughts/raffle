@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import {
   getSession,
   onSessionChange,
@@ -31,6 +31,8 @@ const AdminSessionContext = createContext<AdminSessionValue | null>(null)
 export function AdminSessionProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null | undefined>(undefined)
   const [notice, setNotice] = useState<string | null>(null)
+  // Sign-in is verifying the account is the admin: don't show the shell until it is.
+  const verifying = useRef(false)
 
   useEffect(() => {
     let active = true
@@ -38,7 +40,7 @@ export function AdminSessionProvider({ children }: { children: ReactNode }) {
       if (active) setSession((current) => (current === undefined ? s : current))
     })
     const unsubscribe = onSessionChange((s) => {
-      if (active) setSession(s)
+      if (active && !(verifying.current && s)) setSession(s)
     })
     return () => {
       active = false
@@ -47,7 +49,10 @@ export function AdminSessionProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const signIn = useCallback(async (username: string, password: string) => {
-    const result = await apiSignIn(username, password)
+    verifying.current = true
+    const result = await apiSignIn(username, password).finally(() => {
+      verifying.current = false
+    })
     if (result.ok) {
       setNotice(null)
       setSession(result.session)
