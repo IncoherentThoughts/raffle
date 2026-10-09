@@ -146,7 +146,7 @@
 .admin .stat--red { --c: var(--alert); }
 
 /* ---------- Table ---------- */
-.admin .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.admin .table-scroll { position: relative; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .admin .table { width: 100%; border-collapse: collapse; font-size: 14px; line-height: 20px; }
 .admin .table th {
   text-align: left; font-family: var(--font-serif); font-weight: 700; font-size: 12px; letter-spacing: 0.06em;
