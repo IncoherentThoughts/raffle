@@ -117,18 +117,15 @@
 
 /* ---------- Tags, flags, stats ---------- */
 .admin .tag {
-  display: inline-block; font-family: var(--font-serif); font-weight: 700; font-size: 13px; line-height: 1;
-  padding: 7px 14px; border-radius: 999px; border: 1px solid var(--steel-line); color: var(--ink-muted);
-  background: var(--surface-sunken); white-space: nowrap;
+  display: inline-block; font-family: var(--font-sans); font-weight: 400; font-size: 11px; line-height: 1;
+  padding: 5px 10px; border-radius: 999px; vertical-align: 2px; white-space: nowrap;
+  background: var(--pill-neutral); color: #fff;
 }
-.admin .tag--blue { border-color: var(--comfort-blue); background: var(--comfort-blue); color: var(--on-brand); }
-.admin .tag--gold { border-color: var(--gold); background: var(--gold-wash); color: var(--gold-text); }
-.admin .tag--green { border-color: var(--green); background: var(--green-wash); color: var(--green); }
-.admin .tag--red { border-color: var(--alert); background: var(--alert-wash); color: var(--alert); }
-.admin .tag--dot::before {
-  content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%;
-  background: currentColor; margin-right: 7px; vertical-align: 1px;
-}
+/* Solid fills with white text, like the flag pills; gold takes dark ink. */
+.admin .tag--blue { background: var(--pill-blue); }
+.admin .tag--gold { background: var(--gold); color: var(--gold-ink); }
+.admin .tag--green { background: var(--pill-green); }
+.admin .tag--red { background: var(--alert); }
 .admin .flag {
   display: inline-block; font-family: var(--font-sans); font-weight: 400; font-size: 11px; line-height: 1;
   padding: 5px 10px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; white-space: nowrap;

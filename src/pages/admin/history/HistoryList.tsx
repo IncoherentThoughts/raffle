@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { listHistory, type HistoryRaffle } from '../../../lib/api/history'
 import { useAdminQuery } from '../data/useAdminQuery'
-import { DataTable, EmptyState, InlineError, Loading, PageHeader, Panel, Tag, type Column } from '../ui'
+import { DataTable, EmptyState, InlineError, Loading, PageHeader, Panel, type Column } from '../ui'
 import { EntriesChart } from './EntriesChart'
 import { formatDate } from './model'
 
@@ -20,15 +20,24 @@ const columns: Column<HistoryRaffle>[] = [
   { key: 'closed', header: 'Closed', className: 'num', render: (r) => formatDate(r.closeTime) },
   {
     key: 'ended',
-    header: 'Drawn / Cancelled',
+    header: (
+      <>
+        <span className="history-ended--drawn">Drawn</span> / <span className="history-ended--cancelled">Cancelled</span>
+      </>
+    ),
     render: (r) =>
       r.state === 'drawn' ? (
-        <span className="history-ended">
-          <Tag tone="gold">Drawn</Tag> <span className="num">{formatDate(r.endedAt)}</span>
+        <span className="num history-ended history-ended--drawn" title="Drawn">
+          <span className="visually-hidden">Drawn </span>
+          {formatDate(r.endedAt)}
         </span>
       ) : (
-        <span className="history-ended" title={r.cancelReason ?? undefined}>
-          <Tag tone="red">Cancelled</Tag> <span className="num">{formatDate(r.endedAt)}</span>
+        <span
+          className="num history-ended history-ended--cancelled"
+          title={r.cancelReason ? `Cancelled: ${r.cancelReason}` : 'Cancelled'}
+        >
+          <span className="visually-hidden">Cancelled </span>
+          {formatDate(r.endedAt)}
         </span>
       ),
   },
