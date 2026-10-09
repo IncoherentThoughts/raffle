@@ -99,3 +99,15 @@ below.
   refuses (HTTP 429) the 501st write within 5 minutes from one IP. Change the limit
   in that function; switch it off with
   `alter role authenticator reset pgrst.db_pre_request; notify pgrst, 'reload config';`
+- **Export all data monthly**: sign in to `/admin` > Settings > Export all data and
+  keep the zip somewhere safe. There is no scheduled backup.
+- **Paused project**: the free tier pauses a project after a stretch of inactivity;
+  if it ever pauses, click Resume in the Supabase dashboard within 90 days or the
+  data is lost.
+- **Keepalive**: `.github/workflows/keepalive.yml` runs daily, calls the
+  `keepalive()` RPC (uses the repo variables `SUPABASE_URL` and
+  `SUPABASE_PUBLISHABLE_KEY`) and commits a timestamp to the orphan `keepalive`
+  branch. That commit keeps GitHub from disabling the schedule after 60 days of
+  repo inactivity; it never touches `main`, so it does not trigger a deploy. A
+  failed run emails the repo owner: check the run log, and re-run it from the
+  Actions tab (workflow_dispatch) once fixed.
