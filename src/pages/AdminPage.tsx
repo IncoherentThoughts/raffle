@@ -1,14 +1,13 @@
-import { HeaderBar } from '../components/HeaderBar'
+import { lazy, Suspense } from 'react'
 
-// Placeholder - the real admin shell is issue #12.
+// The admin panel lives in src/pages/admin/ (see its README). Lazy-loaded so the public
+// page's bundle doesn't carry it.
+const AdminApp = lazy(() => import('./admin/AdminApp').then((m) => ({ default: m.AdminApp })))
+
 export function AdminPage() {
   return (
-    <>
-      <HeaderBar />
-      <main className="page-narrow">
-        <p className="kicker">Admin</p>
-        <h1>Admin</h1>
-      </main>
-    </>
+    <Suspense fallback={null}>
+      <AdminApp />
+    </Suspense>
   )
 }

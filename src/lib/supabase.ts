@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from './database.types'
 
 const url = import.meta.env.VITE_SUPABASE_URL
 const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY
@@ -8,4 +9,4 @@ if (!url || !key) {
 }
 
 /** Shared Supabase client (publishable key only). Import with `import { supabase } from '../lib/supabase'`. */
-export const supabase = createClient(url, key)
+export const supabase = createClient<Database>(url, key)
