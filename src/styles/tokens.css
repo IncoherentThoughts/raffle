@@ -2,6 +2,10 @@
    Light is the default; dark follows prefers-color-scheme unless [data-theme] forces a theme. */
 :root {
   --comfort-blue: #004685;
+  /* Solid status-pill fills; same in both themes so white text stays readable. */
+  --pill-blue: #004685;
+  --pill-green: #2a7a4b;
+  --pill-neutral: #6c6a6a;
   --on-brand: #ffffff;
   --header-bar: #004685;
   --navy-900: #0b1a2a;

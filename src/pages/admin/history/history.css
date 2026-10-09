@@ -6,7 +6,9 @@
 .admin .history-link { color: var(--comfort-blue); text-decoration: none; }
 .admin .history-link:hover { text-decoration: underline; }
 .admin .history-muted { color: var(--ink-muted); font-weight: 300; }
-.admin .history-ended { white-space: nowrap; }
+.admin .history-ended { white-space: nowrap; font-weight: 600; }
+.admin .history-ended--drawn { color: var(--gold-text); }
+.admin .history-ended--cancelled { color: var(--alert); }
 .admin .history-more { display: flex; justify-content: center; margin-top: 18px; }
 .admin .panel__head h2 .tag { margin-left: 8px; vertical-align: middle; }
 

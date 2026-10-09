@@ -43,11 +43,11 @@ export function Panel({
 export type Tone = 'neutral' | 'blue' | 'gold' | 'green' | 'red'
 
 /**
- * Status tag (pill with an optional leading dot). Blue filled = Open; gold = Drawn/Excluded;
+ * Status tag: slim solid pill matching the flag pills. Blue = Open; gold = Drawn/Excluded;
  * green = Eligible; red = Cancelled/Removed; neutral = anything else.
  */
-export function Tag({ tone = 'neutral', dot = true, children }: { tone?: Tone; dot?: boolean; children: ReactNode }) {
-  return <span className={`tag tag--${tone}${dot ? ' tag--dot' : ''}`}>{children}</span>
+export function Tag({ tone = 'neutral', children }: { tone?: Tone; children: ReactNode }) {
+  return <span className={`tag tag--${tone}`}>{children}</span>
 }
 
 /** Small pill inside a name cell: red = duplicate signal, gold = past winner in the Window. */
