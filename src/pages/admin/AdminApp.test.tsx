@@ -47,6 +47,16 @@ describe('login', () => {
     expect(screen.getByRole('heading', { name: 'Admin sign in' })).toBeInTheDocument()
   })
 
+  it('rejects a valid non-admin account right after sign-in, without showing the shell', async () => {
+    fake.onRpc('am_i_admin', () => fake.ok(false))
+    renderAt()
+    await signInAs(ADMIN_EMAIL, ADMIN_PASSWORD)
+    expect(await screen.findByRole('alert')).toHaveTextContent('This account is not the raffle admin.')
+    expect(screen.getByRole('heading', { name: 'Admin sign in' })).toBeInTheDocument()
+    expect(screen.queryByRole('navigation', { name: 'Admin' })).not.toBeInTheDocument()
+    expect(fake.supabase.auth.signOut).toHaveBeenCalled()
+  })
+
   it('tells the admin to wait when Supabase rate-limits sign-in', async () => {
     fake.onSignIn(() => ({
       data: { session: null, user: null },

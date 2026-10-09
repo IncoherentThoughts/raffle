@@ -11,7 +11,7 @@
  *   fake.onRpc('draw', () => fake.dbError('raffle_not_closed', '55000'))
  *   fake.onTable('raffles', () => fake.ok([...]))     // any `from('raffles')...` chain resolves to this
  *
- * Unhandled RPCs and tables resolve to `{ data: null, error: null, status: 200 }`.
+ * `am_i_admin` defaults to true. Other unhandled RPCs and tables resolve to `{ data: null, error: null, status: 200 }`.
  */
 import type { Session } from '@supabase/supabase-js'
 import { vi } from 'vitest'
@@ -44,7 +44,8 @@ function makeSession(email = ADMIN_EMAIL): Session {
 function createFake() {
   let session: Session | null = null
   const listeners = new Set<AuthListener>()
-  let rpcHandlers = new Map<string, Handler>()
+  const defaultRpcs = (): Map<string, Handler> => new Map([['am_i_admin', () => ok(true)]])
+  let rpcHandlers = defaultRpcs()
   let tableHandlers = new Map<string, Handler>()
   let signInHandler: Handler | null = null
 
@@ -131,7 +132,7 @@ function createFake() {
     reset() {
       session = null
       listeners.clear()
-      rpcHandlers = new Map()
+      rpcHandlers = defaultRpcs()
       tableHandlers = new Map()
       signInHandler = null
       Object.values(supabase.auth).forEach((f) => f.mockClear())

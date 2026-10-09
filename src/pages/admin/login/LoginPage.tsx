@@ -8,6 +8,7 @@ const MESSAGES = {
   invalid: 'Wrong username or password.',
   rate_limited: 'Too many sign-in attempts. Wait a few minutes and try again.',
   unreachable: UNREACHABLE_MESSAGE,
+  not_admin: 'This account is not the raffle admin.',
 } as const
 
 /** Login card at /admin (and at any /admin/* path while signed out). */
