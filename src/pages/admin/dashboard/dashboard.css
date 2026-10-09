@@ -12,21 +12,6 @@
 /* Six tiles: 3 across (2 rows), 2 across below 900px (from admin.css). */
 .admin .dash-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 
-/* Entries over time */
-.admin .dash-chart { margin: 22px 0 0; }
-.admin .dash-chart__title { font-family: var(--font-serif); font-weight: 700; font-size: 14px; color: var(--charcoal); margin-bottom: 8px; }
-.admin .dash-chart__plot { position: relative; height: 96px; padding-left: 28px; }
-.admin .dash-chart__max { position: absolute; left: 0; top: -2px; font-size: 11px; color: var(--ink-muted); }
-.admin .dash-chart__bars {
-  display: flex; align-items: flex-end; gap: 2px; height: 100%;
-  border-bottom: 1px solid var(--steel-line); border-left: 1px solid var(--steel-line);
-}
-.admin .dash-chart__col { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; }
-.admin .dash-chart__col:hover .dash-chart__bar { opacity: 0.75; }
-.admin .dash-chart__bar { width: 100%; max-width: 40px; margin: 0 auto; background: var(--comfort-blue); min-height: 0; }
-.admin .dash-chart__axis { display: flex; gap: 2px; padding-left: 29px; margin-top: 4px; font-size: 11px; line-height: 14px; color: var(--ink-muted); }
-.admin .dash-chart__tick { flex: 1 1 0; min-width: 0; text-align: center; white-space: nowrap; overflow: visible; }
-
 /* Actions row: Edit / Close early / Cancel left, Draw right */
 .admin .dash-actions { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
 .admin .dash-actions__group { display: flex; gap: 10px; flex-wrap: wrap; }

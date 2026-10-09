@@ -131,7 +131,7 @@ describe('Open', () => {
     )
   })
 
-  it('shows status, countdown, the six stat tiles, the chart, and a disabled Draw with its hint', async () => {
+  it('shows status, countdown, the six stat tiles, and a disabled Draw with its hint', async () => {
     await open()
     expect(await screen.findByText('Titans vs. Colts')).toBeInTheDocument()
     expect(screen.getByText('Open')).toBeInTheDocument()
@@ -143,8 +143,7 @@ describe('Open', () => {
     expect(await tile('Flags')).toHaveTextContent('2')
     expect(await tile('New')).toHaveTextContent('2')
     expect(await tile('Returning')).toHaveTextContent('2')
-    expect(screen.getByText('Entries over time')).toBeInTheDocument()
-    expect(screen.getByRole('img', { name: /^4 entries over [56] days/ })).toBeInTheDocument()
+    expect(screen.queryByText('Entries over time')).not.toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Draw winner' })).toBeDisabled()
     expect(screen.getByText('enabled once entries close')).toBeInTheDocument()
   })
