@@ -12,7 +12,7 @@ export type SessionStatus = 'loading' | 'signedOut' | 'signedIn'
 
 type AdminSessionValue = {
   status: SessionStatus
-  /** The signed-in Auth user's email (the shared admin username). */
+  /** The signed-in Auth user's email (the admin's username). */
   email: string | null
   /** Message for the login card after an involuntary sign-out (e.g. not the admin). */
   notice: string | null

@@ -8,7 +8,8 @@ Hands-on pass over the deployed app before real use. Work top to bottom; it take
 
 ## 0. Setup
 
-- [ ] Admin user exists in Supabase (Authentication → Users) and its id is in `private.app_config` (README → Database).
+- [ ] Each admin account exists in Supabase (Authentication → Users) and is in `private.admins` (README → Database).
+- [ ] Sign in with each admin account in turn → both land on the Dashboard and see the same data.
 - [ ] `.env.local` at the repo root holds `VITE_SUPABASE_URL=https://nduesytuadtrmorddsmn.supabase.co` and `VITE_SUPABASE_PUBLISHABLE_KEY=<the publishable key from the repo variables>`.
 - [ ] Seed artificial data (asks for the admin email + password):
   ```bash

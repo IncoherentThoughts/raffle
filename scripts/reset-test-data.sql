@@ -1,6 +1,6 @@
 -- Wipes ALL raffle data (Raffles, Entries, Winners, Overrides, Snapshots, dismissals, Activity Log).
 -- Run in the Supabase SQL editor after testing, before the real launch. Keeps the admin login
--- and private.app_config. The Activity Log's append-only triggers are paused only inside this
+-- and private.admins. The Activity Log's append-only triggers are paused only inside this
 -- transaction.
 begin;
 alter table public.activity_log disable trigger user;
