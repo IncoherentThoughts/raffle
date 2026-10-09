@@ -1,4 +1,4 @@
-import { screen, waitFor, within } from '@testing-library/react'
+import { act, screen, waitFor, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { ADMIN_EMAIL, ADMIN_PASSWORD, fake } from '../../test/fakeSupabase'
 import { currentPath as path, renderAdmin } from './test/renderAdmin'
@@ -193,6 +193,34 @@ describe('theme', () => {
     renderAt('/admin/dashboard')
     expect(await screen.findByRole('button', { name: 'Light theme' })).toBeInTheDocument()
     expect(document.documentElement.dataset.theme).toBe('dark')
+  })
+
+  it('toggling back to the device theme clears the override', async () => {
+    fake.signedIn()
+    renderAt('/admin/dashboard')
+    const user = userEvent.setup()
+    await user.click(await screen.findByRole('button', { name: 'Dark theme' }))
+    expect(localStorage.getItem('raffle.theme')).toBe('dark')
+    await user.click(screen.getByRole('button', { name: 'Light theme' }))
+    expect(localStorage.getItem('raffle.theme')).toBeNull()
+    expect(document.documentElement).not.toHaveAttribute('data-theme')
+  })
+
+  it('follows live device theme changes when there is no override', async () => {
+    let listener: (() => void) | undefined
+    const mq = {
+      matches: false,
+      addEventListener: (_: string, fn: () => void) => (listener = fn),
+      removeEventListener: () => {},
+    }
+    vi.stubGlobal('matchMedia', () => mq)
+    fake.signedIn()
+    renderAt('/admin/dashboard')
+    expect(await screen.findByRole('button', { name: 'Dark theme' })).toBeInTheDocument()
+    mq.matches = true
+    act(() => listener?.())
+    expect(screen.getByRole('button', { name: 'Light theme' })).toBeInTheDocument()
+    vi.unstubAllGlobals()
   })
 
   it('still toggles when localStorage is blocked', async () => {

@@ -30,7 +30,9 @@ Hands-on pass over the deployed app before real use. Work top to bottom; it take
 - [ ] Correct login → lands on Dashboard.
 - [ ] Reload the page → still signed in.
 - [ ] Sidebar: Dashboard / Entries / Winners / History switch, URL changes, browser Back works.
-- [ ] Theme toggle switches light/dark and survives a reload.
+- [ ] With no toggle used, the site follows the device's light/dark setting, and switches live when you change it.
+- [ ] Theme toggle switches light/dark, survives a reload, and still applies on the public page after Sign out.
+- [ ] Toggle back to match the device → the site follows the device again.
 - [ ] Narrow the window below 900px → sidebar becomes a top bar; utility menu behind a button works.
 - [ ] Open `/admin/winners` directly while signed out → after login you land on Winners.
 - [ ] Sign out → back to login card; `/admin/dashboard` now asks for login.
