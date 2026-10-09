@@ -22,8 +22,7 @@ insert into auth.users (id, email, aud, role)
 values (tests.admin_id(), 'pgtap-admin@tests.invalid', 'authenticated', 'authenticated'),
        (tests.other_id(), 'pgtap-other@tests.invalid', 'authenticated', 'authenticated');
 
-insert into private.app_config (admin_user_id) values (tests.admin_id())
-on conflict (id) do update set admin_user_id = excluded.admin_user_id;
+insert into private.admins (user_id) values (tests.admin_id()) on conflict do nothing;
 
 -- Named ids, so test SQL inside $$ strings can refer to fixtures.
 create table tests.ids (name text primary key, id uuid not null);

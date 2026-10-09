@@ -12,8 +12,8 @@ export type SignInResult =
 class ApiErrorNotAdmin extends Error {}
 
 /**
- * Sign in as the shared admin Auth user. The "username" on the login card is that user's
- * email (#9). Supabase Auth's per-IP rate limit is the only lockout.
+ * Sign in as an admin Auth user. The "username" on the login card is that user's email (#9).
+ * Supabase Auth's per-IP rate limit is the only lockout.
  */
 export async function signIn(username: string, password: string): Promise<SignInResult> {
   let result
@@ -43,9 +43,9 @@ export async function signIn(username: string, password: string): Promise<SignIn
 }
 
 /**
- * Sign out this browser only. Every admin shares one Auth user, so a global sign-out
- * would end the other admins' sessions too. supabase-js clears the local session even
- * when the request fails.
+ * Sign out this browser only. An admin account may be signed in on several devices (or
+ * shared), so a global sign-out would end those sessions too. supabase-js clears the local
+ * session even when the request fails.
  */
 export async function signOut(): Promise<void> {
   try {

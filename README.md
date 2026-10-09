@@ -67,7 +67,7 @@ npx supabase stop
 ```
 
 To sign in to the admin panel locally, create a user in the local Auth
-(local Studio or the Auth admin API) and register it as the admin with the SQL
+(local Studio or the Auth admin API) and register it as an admin with the SQL
 below.
 
 ### Applying to the hosted project (owner only)
@@ -79,24 +79,28 @@ below.
    npx supabase db push
    ```
    (Or paste each file in `supabase/migrations/` into the SQL editor, in order.)
-2. Dashboard > Authentication > Users > Add user: the shared admin user (your
-   company email + the shared admin password, auto-confirm). Keep "Allow new
-   users to sign up" off.
-3. Register that user as the admin, in the SQL editor:
+2. Dashboard > Authentication > Users > Add user: an admin account (an email,
+   which is the username on the login card, + a password, auto-confirm). Keep
+   "Allow new users to sign up" off.
+3. Register that user as an admin, in the SQL editor:
    ```sql
-   insert into private.app_config (admin_user_id)
+   insert into private.admins (user_id)
    select id from auth.users where email = '<admin email>'
-   on conflict (id) do update set admin_user_id = excluded.admin_user_id, updated_at = now();
+   on conflict do nothing;
    ```
-   Until this row exists nobody is an admin: every admin RPC returns `not_admin`.
+   Until a row exists nobody is an admin: every admin RPC returns `not_admin`.
+   Every account in `private.admins` has the same rights.
 
 ### Runbook
 
-- **Rotate the admin password** (when an admin leaves): Dashboard > Authentication >
-  Users > the admin user > change password. The UUID does not change, so nothing
-  else needs updating.
-- **Replace the admin user** (e.g. a shared mailbox): create the new user, re-run
-  the `private.app_config` statement above with the new email, then delete the old user.
+- **Add another admin account**: repeat steps 2 and 3 with the new email and password.
+- **Change an admin's password**: Dashboard > Authentication > Users > that user >
+  change password. The UUID does not change, so nothing else needs updating.
+- **Remove an admin account**: Dashboard > Authentication > Users > delete that user.
+  Its `private.admins` row goes with it. To keep the login but revoke admin rights:
+  `delete from private.admins where user_id = (select id from auth.users where email = '<email>');`
+- **List admin accounts**:
+  `select u.email, a.added_at from private.admins a join auth.users u on u.id = a.user_id;`
 - **Rate limit**: PostgREST runs `private.check_request()` before every request and
   refuses (HTTP 429) the 501st write within 5 minutes from one IP. Change the limit
   in that function; switch it off with

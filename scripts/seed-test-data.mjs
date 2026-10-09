@@ -24,7 +24,7 @@ const anon = createClient(url, key, opts)
 
 const { error: signInError } = await admin.auth.signInWithPassword({ email, password })
 if (signInError) throw new Error(`Sign-in failed: ${signInError.message}`)
-if (!(await rpc('am_i_admin'))) throw new Error('That account is not the configured raffle admin.')
+if (!(await rpc('am_i_admin'))) throw new Error('That account is not a raffle admin (private.admins).')
 
 async function rpc(fn, args = {}) {
   const { data, error } = await admin.rpc(fn, args)
