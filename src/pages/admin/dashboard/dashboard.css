@@ -1,0 +1,63 @@
+/* Dashboard tab (#13). Scoped under .admin; colours via tokens only. */
+.admin .dash-panel-lead { margin: 0 0 14px; }
+.admin .dash-kicker {
+  display: block; font-size: 13px; line-height: 18px; text-transform: uppercase; letter-spacing: 0.04em;
+  color: var(--comfort-blue); margin-bottom: 4px;
+}
+.admin .dash-title { display: block; font-size: 24px; line-height: 30px; color: var(--charcoal); }
+.admin .dash-raffle-name { font-weight: 700; color: var(--charcoal); }
+.admin .dash-countdown { margin: 0; font-size: 15px; }
+.admin .dash-countdown__left { color: var(--alert); }
+
+/* Six tiles: 3 across (2 rows), 2 across below 900px (from admin.css). */
+.admin .dash-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* Entries over time */
+.admin .dash-chart { margin: 22px 0 0; }
+.admin .dash-chart__title { font-family: var(--font-serif); font-weight: 700; font-size: 14px; color: var(--charcoal); margin-bottom: 8px; }
+.admin .dash-chart__plot { position: relative; height: 96px; padding-left: 28px; }
+.admin .dash-chart__max { position: absolute; left: 0; top: -2px; font-size: 11px; color: var(--ink-muted); }
+.admin .dash-chart__bars {
+  display: flex; align-items: flex-end; gap: 2px; height: 100%;
+  border-bottom: 1px solid var(--steel-line); border-left: 1px solid var(--steel-line);
+}
+.admin .dash-chart__col { flex: 1 1 0; min-width: 0; height: 100%; display: flex; align-items: flex-end; }
+.admin .dash-chart__col:hover .dash-chart__bar { opacity: 0.75; }
+.admin .dash-chart__bar { width: 100%; max-width: 40px; margin: 0 auto; background: var(--comfort-blue); min-height: 0; }
+.admin .dash-chart__axis { display: flex; justify-content: space-between; padding-left: 28px; margin-top: 4px; font-size: 11px; color: var(--ink-muted); }
+
+/* Actions row: Edit / Close early / Cancel left, Draw right */
+.admin .dash-actions { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; flex-wrap: wrap; margin-top: 22px; }
+.admin .dash-actions__group { display: flex; gap: 10px; flex-wrap: wrap; }
+.admin .dash-actions__draw { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.admin .dash-hint { font-size: 12px; line-height: 16px; color: var(--ink-muted); }
+
+/* Create / edit form */
+.admin .dash-grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 18px; }
+.admin .dash-exclusion { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.admin .dash-check { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; cursor: pointer; }
+.admin .dash-check input { width: 16px; height: 16px; accent-color: var(--comfort-blue); }
+.admin .dash-months { width: 80px; }
+.admin .dash-months:disabled { opacity: 0.5; }
+.admin .dash-exclusion__error { flex-basis: 100%; }
+.admin .dash-notice { font-size: 14px; line-height: 20px; margin: 0 0 14px; padding: 10px 12px; border-left: 4px solid var(--alert); background: var(--alert-wash); }
+
+/* Winner panel */
+.admin .dash-winners { background: linear-gradient(var(--gold-wash), var(--gold-wash)), var(--surface); }
+.admin .dash-slots { list-style: none; margin: 0; padding: 0; }
+.admin .dash-slot { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--steel-line); }
+.admin .dash-slot:last-child { border-bottom: 0; }
+.admin .dash-slot__pos { flex: none; width: 56px; font-size: 13px; color: var(--gold-text); font-weight: 600; }
+.admin .dash-slot__who { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.admin .dash-slot__who b { font-family: var(--font-serif); font-size: 17px; color: var(--charcoal); }
+.admin .dash-slot__who span { font-size: 14px; color: var(--ink-muted); overflow-wrap: anywhere; }
+.admin .dash-slot--vacant { color: var(--ink-muted); font-style: normal; }
+.admin .dash-redraws { margin-top: 14px; font-size: 14px; }
+.admin .dash-redraws__count { margin: 0; }
+.admin .dash-redraws__list { margin: 6px 0 0; padding-left: 18px; color: var(--ink-muted); }
+
+@media (max-width: 899px) {
+  .admin .dash-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .admin .dash-grid2 { grid-template-columns: minmax(0, 1fr); }
+  .admin .dash-actions__draw { align-items: flex-start; }
+}
