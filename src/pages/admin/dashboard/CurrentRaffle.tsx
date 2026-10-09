@@ -10,7 +10,6 @@ import {
 import { formatTimeLeft } from '../../../lib/timeLeft'
 import { useAdminQuery, useApiErrorHandler } from '../data/useAdminQuery'
 import { Button, ConfirmDialog, InlineError, Loading, Panel, StatTile, Tag } from '../ui'
-import { EntriesChart } from './EntriesChart'
 import { formatDateTime, friendlyError, plural } from './format'
 import { EditRaffleModal } from './RaffleDialogs'
 import { raffleStats } from './stats'
@@ -44,7 +43,7 @@ export function CurrentRaffle({ raffle, version, onChanged }: { raffle: Raffle; 
   const status = raffleStatus(raffle, now)
   const closed = status === 'closed'
   const entries = useAdminQuery(() => raffleEntries(raffle.id), [raffle.id, version])
-  const stats = entries.data ? raffleStats(raffle, entries.data) : null
+  const stats = entries.data ? raffleStats(entries.data) : null
   const handleError = useApiErrorHandler()
   const [dialog, setDialog] = useState<Dialog>(null)
 
@@ -118,7 +117,6 @@ export function CurrentRaffle({ raffle, version, onChanged }: { raffle: Raffle; 
             <StatTile tone="blue" value={stats.new} label="New" />
             <StatTile tone="blue" value={stats.returning} label="Returning" />
           </div>
-          <EntriesChart daily={stats.daily} />
         </>
       )}
 
