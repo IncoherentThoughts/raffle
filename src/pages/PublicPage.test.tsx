@@ -125,10 +125,11 @@ describe('PublicPage', () => {
       stateReturns(raffle({ close_time: new Date(Date.now() + 3000).toISOString() }))
       renderPage()
       await screen.findByLabelText('Full Name')
+      // Async advance lets React flush the countdown's effect before its interval is due.
       await act(async () => {
-        vi.advanceTimersByTime(4000)
+        await vi.advanceTimersByTimeAsync(4000)
       })
-      expect(screen.getByRole('heading', { name: 'Drawing soon' })).toBeInTheDocument()
+      expect(await screen.findByRole('heading', { name: 'Drawing soon' })).toBeInTheDocument()
       expect(screen.queryByLabelText('Full Name')).not.toBeInTheDocument()
     })
   })
