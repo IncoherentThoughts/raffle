@@ -12,46 +12,6 @@
 .admin .history-more { display: flex; justify-content: center; margin-top: 18px; }
 .admin .panel__head h2 .tag { margin-left: 8px; vertical-align: middle; }
 
-/* Entries per Raffle chart: HTML bars so labels never stretch. */
-.admin .entries-chart { margin: 0; }
-.admin .entries-chart__legend { display: flex; gap: 18px; font-size: 12px; color: var(--ink-muted); margin-bottom: 8px; }
-.admin .entries-chart__legend span { display: inline-flex; align-items: center; gap: 6px; }
-.admin .entries-chart__key { display: inline-block; width: 12px; height: 12px; border-radius: 2px; background: var(--comfort-blue); }
-.admin .entries-chart__key--cancelled { background: transparent; border: 2px solid var(--steel-muted); }
-.admin .entries-chart__plot { display: flex; gap: 2px; height: 230px; overflow-x: auto; }
-.admin .entries-chart__col {
-  position: relative; flex: 1 0 44px; max-width: 80px; height: 100%;
-  display: flex; flex-direction: column; text-decoration: none; color: var(--ink-muted);
-}
-.admin .entries-chart__col:focus-visible { outline: 2px solid var(--comfort-blue); outline-offset: -2px; }
-.admin .entries-chart__track {
-  flex: 1; display: flex; flex-direction: column; justify-content: flex-end; align-items: center;
-  border-bottom: 1px solid var(--steel-line); padding: 18px 4px 0;
-}
-.admin .entries-chart__bar {
-  position: relative; display: block; width: 100%; max-width: 32px; min-height: 2px;
-  background: var(--comfort-blue); border-radius: 4px 4px 0 0;
-}
-.admin .entries-chart__col.is-cancelled .entries-chart__bar {
-  background: transparent; border: 2px solid var(--steel-muted); border-bottom: 0;
-}
-.admin .entries-chart__col:hover .entries-chart__bar { filter: brightness(1.15); }
-.admin .entries-chart__value {
-  position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
-  font-size: 12px; line-height: 16px; color: var(--ink); padding-bottom: 2px;
-}
-.admin .entries-chart__date { font-size: 11px; line-height: 16px; padding-top: 4px; text-align: center; white-space: nowrap; }
-/* Tooltip sits inside the plot (top of the column) so the scroll container never clips it. */
-.admin .entries-chart__tip {
-  position: absolute; top: 0; left: 0; z-index: 2;
-  display: flex; flex-direction: column; gap: 2px; width: max-content; max-width: 220px;
-  background: var(--surface); color: var(--ink); border: 1px solid var(--steel-line);
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12); padding: 8px 10px; font-size: 12px; line-height: 16px;
-  pointer-events: none; white-space: normal;
-}
-.admin .entries-chart__tip--end { left: auto; right: 0; }
-.admin .entries-chart__tip b { font-family: var(--font-serif); color: var(--charcoal); }
-
 /* Raffle detail */
 .admin .history-facts {
   display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 12px 24px; margin: 0;

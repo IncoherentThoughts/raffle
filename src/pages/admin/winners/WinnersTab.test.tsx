@@ -91,7 +91,7 @@ function setup({ winners = [DAKOTA, AMY, ANA], overrides = OVERRIDES } = {}) {
 
 const winnersTable = () => screen.findByRole('table', { name: 'Winners, newest first' })
 const rowFor = async (name: string) =>
-  within(await winnersTable()).getByRole('cell', { name }).closest('tr') as HTMLElement
+  within(await winnersTable()).getByRole('cell', { name: new RegExp(`^${name}`) }).closest('tr') as HTMLElement
 const rpcCalls = (fn: string) => fake.supabase.rpc.mock.calls.filter(([f]) => f === fn).map(([, a]) => a)
 
 beforeEach(() => fake.reset())
@@ -104,7 +104,7 @@ describe('Winners tab', () => {
     const names = within(table)
       .getAllByRole('row')
       .slice(1)
-      .map((r) => within(r).getAllByRole('cell')[0].textContent)
+      .map((r) => within(r).getAllByRole('cell')[0].querySelector('.winners__nowrap')?.textContent)
     expect(names).toEqual(['Dakota Worthen', 'Ana Kowalski'])
 
     const dakota = await rowFor('Dakota Worthen')
@@ -113,20 +113,20 @@ describe('Winners tab', () => {
       'title',
       'Excluded from draws until Aug 19, 2027',
     )
-    expect(dakota).toHaveTextContent('none')
+    expect(dakota).toHaveTextContent('—')
     expect(within(dakota).queryByRole('button', { name: /Delete/ })).not.toBeInTheDocument()
 
     const ana = await rowFor('Ana Kowalski')
     expect(ana).toHaveTextContent('Titans Home Opener 2025')
     expect(ana).toHaveTextContent('Eligible again')
-    expect(within(ana).getByText('Always eligible')).toHaveAttribute('title', 'manager approved')
+    expect(within(ana).getByText('Always eligible').closest('[title]')).toHaveAttribute('title', 'manager approved')
     expect(screen.getByText(/excluded from new draws for 12 months/)).toBeInTheDocument()
   })
 
   it('includes Replaced Winners with the toggle', async () => {
     const user = setup()
     await winnersTable()
-    expect(screen.queryByRole('cell', { name: 'Amy Ng' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('cell', { name: /^Amy Ng/ })).not.toBeInTheDocument()
     await user.click(screen.getByRole('checkbox', { name: /Include replaced/ }))
     const amy = await rowFor('Amy Ng')
     expect(amy).toHaveClass('row--muted')

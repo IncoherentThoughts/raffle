@@ -99,11 +99,7 @@ describe('History list', () => {
       'href',
       '/admin/history/r2',
     )
-    // Chart: one bar per Raffle, linking to its detail.
-    expect(screen.getByRole('link', { name: /^Titans home opener: 9 entries, drawn/ })).toHaveAttribute(
-      'href',
-      '/admin/history/r1',
-    )
+    expect(screen.queryByText('Entries per raffle')).not.toBeInTheDocument()
   })
 
   it('says so when nothing is completed yet', async () => {
