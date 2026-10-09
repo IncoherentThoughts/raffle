@@ -34,6 +34,7 @@ Hands-on pass over the deployed app before real use. Work top to bottom; it take
 - [ ] Theme toggle switches light/dark, survives a reload, and still applies on the public page after Sign out.
 - [ ] Toggle back to match the device → the site follows the device again.
 - [ ] Narrow the window below 900px → sidebar becomes a top bar; utility menu behind a button works.
+- [ ] At phone width (~375px) all four tabs fit beside the menu button with no horizontal scrollbar.
 - [ ] Open `/admin/winners` directly while signed out → after login you land on Winners.
 - [ ] Sign out → back to login card; `/admin/dashboard` now asks for login.
 - [ ] Header: logo top-left, "Company Raffle" top-right, on both public and admin pages.
@@ -53,7 +54,6 @@ Hands-on pass over the deployed app before real use. Work top to bottom; it take
 
 - [ ] Status tag Open, title/prize, countdown.
 - [ ] Six tiles. Expected roughly: Entries ≈ 20 + what you added in §2; **Excluded** includes Morgan Banned and Raffle A's two standing winners; **Flags** > 0; **Returning** counts people who entered A/B/C.
-- [ ] "Entries over time" chart shows today's bar.
 - [ ] Draw button disabled with "enabled once entries close".
 - [ ] **Edit**: change prize → saved; public page shows it after reload.
 - [ ] Edit Winner Count to 0 → refused. Back to 2.
@@ -110,9 +110,11 @@ Hands-on pass over the deployed app before real use. Work top to bottom; it take
 
 ## 9. History
 
-- [ ] Chart: one bar per completed raffle; cancelled ones outlined.
 - [ ] Rows for A, B, C, D and the ones from §8, with dates, counts, winners, vacant count, Redraws.
+- [ ] Entries column adds up: Raffle D reads like "22 (15 / 5), 2 removed" (removed entries are not counted as excluded).
+- [ ] Raffle B (cancelled before its Close Time) shows Closed on the day it was cancelled, not the later Close Time.
 - [ ] Raffle A detail: winners with the Redraw chain + reason; Draw Snapshot with per-entry verdicts and frozen flags; its Activity Log; "View entries" opens its entries read-only (no Add/Remove).
+- [ ] Raffle D detail: Excluded and Removed tiles are separate and add up with Eligible to Entries.
 - [ ] Raffle B detail shows the cancel reason.
 - [ ] Raffle C detail shows the vacant slot and why.
 - [ ] Activity log page lists every action you took today with readable sentences and reasons; "Show older" works.

@@ -68,8 +68,8 @@ describe('History list', () => {
       fake.ok([
         {
           ...raffle({ winner_count: 3 }),
-          draw_snapshots: { eligible_count: 7, excluded_count: 2 },
-          entries: [{ count: 9 }],
+          draw_snapshots: { eligible_count: 7, excluded_count: 3, removed: [{ count: 1 }] },
+          entries: [{ count: 10 }],
           winners: [{ status: 'standing' }, { status: 'replaced' }, { status: 'replaced' }, { status: 'standing' }],
         },
         {
@@ -78,6 +78,7 @@ describe('History list', () => {
             title: 'Sounds opening day',
             state: 'cancelled',
             drawn_at: null,
+            close_time: '2026-08-09T17:00:00Z',
             cancelled_at: '2026-08-05T12:00:00Z',
             cancel_reason: 'Rained out',
           }),
@@ -91,10 +92,13 @@ describe('History list', () => {
     const table = await screen.findByRole('table', { name: 'Completed raffles' })
     const [, drawn, cancelled] = within(table).getAllByRole('row')
     expect(drawn).toHaveTextContent('Titans home opener')
-    expect(drawn).toHaveTextContent('9 (7 / 2)')
+    expect(drawn).toHaveTextContent('10 (7 / 2), 1 removed')
     expect(drawn).toHaveTextContent('2 of 3 (1 vacant)')
     expect(within(drawn).getAllByRole('cell').at(-1)).toHaveTextContent('2')
     expect(cancelled).toHaveTextContent('Cancelled')
+    // Cancelled before its Close Time: entries stopped at the cancellation, not Aug 9.
+    const [, , closed] = within(cancelled).getAllByRole('cell')
+    expect(closed).toHaveTextContent('Aug 5, 2026')
     expect(within(cancelled).getByRole('link', { name: 'Sounds opening day' })).toHaveAttribute(
       'href',
       '/admin/history/r2',
@@ -174,6 +178,11 @@ describe('Raffle detail', () => {
     expect(screen.getByText('On, 12 months')).toBeInTheDocument()
     expect(screen.getByRole('link', { name: 'View entries' })).toHaveAttribute('href', '/admin/entries/r1')
     expect(screen.getByRole('link', { name: '← History' })).toHaveAttribute('href', '/admin/history')
+    // Snapshot says 2 excluded, one of them Removed: the tiles split them so they add up to Entries.
+    const tile = (label: string) => screen.getByText(label, { selector: '.stat span' }).closest('.stat')
+    expect(tile('Entries')).toHaveTextContent('5')
+    expect(tile('Excluded')).toHaveTextContent('1')
+    expect(tile('Removed')).toHaveTextContent('1')
   })
 
   it('shows each Winner slot with its Redraw chain, reasons and vacant slot', async () => {

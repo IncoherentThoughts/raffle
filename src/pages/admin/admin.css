@@ -212,3 +212,7 @@
   .admin .side__tab { padding: 14px 12px; gap: 0; }
   .admin .side__tab svg { display: none; }
 }
+/* Phone widths: keep all four tabs beside the menu button without a scrollbar. */
+@media (max-width: 439px) {
+  .admin .side__tab { padding: 14px 9px; font-size: 14px; }
+}

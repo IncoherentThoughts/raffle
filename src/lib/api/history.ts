@@ -20,7 +20,8 @@ export type HistoryRaffle = {
   prize: string | null
   state: 'drawn' | 'cancelled'
   openedAt: string
-  closeTime: string
+  /** When entries actually stopped: the Close Time, or the cancellation if that came first. */
+  closedAt: string
   /** drawn_at or cancelled_at. */
   endedAt: string
   cancelReason: string | null
@@ -29,7 +30,10 @@ export type HistoryRaffle = {
   entries: number
   /** From the Draw Snapshot; null for a Cancelled Raffle. */
   eligible: number | null
+  /** Excluded at the Draw, not counting Removed Entries. */
   excluded: number | null
+  /** Entries that were Removed at the Draw; null for a Cancelled Raffle. */
+  removed: number | null
   /** Standing Winners. */
   winners: number
   /** Winner Count minus Standing Winners (Drawn only). */
@@ -39,7 +43,7 @@ export type HistoryRaffle = {
 }
 
 type HistoryQueryRow = RaffleRow & {
-  draw_snapshots: Pick<SnapshotRow, 'eligible_count' | 'excluded_count'> | null
+  draw_snapshots: (Pick<SnapshotRow, 'eligible_count' | 'excluded_count'> & { removed: { count: number }[] }) | null
   entries: { count: number }[]
   winners: Pick<WinnerRow, 'status'>[]
 }
@@ -47,19 +51,23 @@ type HistoryQueryRow = RaffleRow & {
 export function toHistoryRaffle(r: HistoryQueryRow): HistoryRaffle {
   const drawn = r.state === 'drawn'
   const standing = r.winners.filter((w) => w.status === 'standing').length
+  const endedAt = (drawn ? r.drawn_at : r.cancelled_at) ?? r.close_time
+  const snap = r.draw_snapshots
+  const removed = snap ? (snap.removed[0]?.count ?? 0) : null
   return {
     id: r.id,
     title: r.title,
     prize: r.prize,
     state: drawn ? 'drawn' : 'cancelled',
     openedAt: r.created_at,
-    closeTime: r.close_time,
-    endedAt: (drawn ? r.drawn_at : r.cancelled_at) ?? r.close_time,
+    closedAt: Date.parse(endedAt) < Date.parse(r.close_time) ? endedAt : r.close_time,
+    endedAt,
     cancelReason: r.cancel_reason,
     winnerCount: r.winner_count,
     entries: r.entries[0]?.count ?? 0,
-    eligible: r.draw_snapshots?.eligible_count ?? null,
-    excluded: r.draw_snapshots?.excluded_count ?? null,
+    eligible: snap?.eligible_count ?? null,
+    excluded: snap ? snap.excluded_count - (removed ?? 0) : null,
+    removed,
     winners: standing,
     vacant: drawn ? Math.max(0, r.winner_count - standing) : 0,
     redraws: r.winners.filter((w) => w.status === 'replaced').length,
@@ -71,7 +79,10 @@ export async function listHistory(): Promise<HistoryRaffle[]> {
   const rows = unwrap(
     await supabase
       .from('raffles')
-      .select('*, draw_snapshots(eligible_count, excluded_count), entries(count), winners(status)')
+      .select(
+        '*, draw_snapshots(eligible_count, excluded_count, removed:draw_snapshot_entries(count)), entries(count), winners(status)',
+      )
+      .eq('draw_snapshots.removed.reason', 'removed')
       .in('state', ['drawn', 'cancelled'])
       .order('created_at', { ascending: false }),
   ) as unknown as HistoryQueryRow[] | null
